@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\FacebookPostController;
 use App\Http\Controllers\HomeController;
 
+
 Route::get('/', function () {
     return view('welcome');
 });

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Testimonial</title>
+    <!-- Favicons -->
+    <link href="../../../pap1.png" rel="icon">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex min-h-screen">

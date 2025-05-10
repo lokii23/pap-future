@@ -40,7 +40,7 @@
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
-      <a href="index.html" class="logo d-flex align-items-center me-auto">
+      <a href="/" class="logo d-flex align-items-center me-auto">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <img src="pap3.png" alt="">
       </a>
@@ -820,7 +820,7 @@
 
       <div class="container">
 
-        <div class="row gy-4">
+        <div class="row gy-4 justify-content-center">
 
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
             <div class="team-member">
@@ -835,7 +835,7 @@
               </div>
               <div class="member-info">
                 <h4>Dr. Artemio I. Panganiban Jr.</h4>
-                <span>President</span>
+                <span style="color: #b40000">President</span>
                 <p>Sample Text, Velit aut quia fugit et et. Dolorum ea voluptate vel tempore tenetur ipsa quae aut. Ipsum exercitationem iure minima enim corporis et voluptate.</p>
               </div>
             </div>
@@ -854,12 +854,16 @@
               </div>
               <div class="member-info">
                 <h4>Mrs. Raquel M. Panganiban</h4>
-                <span>Corporate Secretary / Treasurer</span>
+                <span style="color: #b40000">Corporate Secretary / Treasurer</span>
                 <p>Quo esse repellendus quia id. Est eum et accusantium pariatur fugit nihil minima suscipit corporis. Voluptate sed quas reiciendis animi neque sapiente.</p>
               </div>
             </div>
           </div><!-- End Team Member -->
 
+        </div>
+        <br/>
+        <div class="row gy-4 justify-content-center">
+          
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
             <div class="team-member">
               <div class="member-img">
@@ -873,7 +877,7 @@
               </div>
               <div class="member-info">
                 <h4>Ms. Arlene May M. Panganiban</h4>
-                <span>VP for Administration</span>
+                <span style="color: #b40000">VP for Administration</span>
                 <p>Vero omnis enim consequatur. Voluptas consectetur unde qui molestiae deserunt. Voluptates enim aut architecto porro aspernatur molestiae modi.</p>
               </div>
             </div>
@@ -891,8 +895,8 @@
                 </div>
               </div>
               <div class="member-info">
-                <h4>Artemio I. Panganiban</h4>
-                <span>VP for Finance</span>
+                <h4>Artemio I. Panganiban IV</h4>
+                <span style="color: #b40000">VP for Finance</span>
                 <p>Rerum voluptate non adipisci animi distinctio et deserunt amet voluptas. Quia aut aliquid doloremque ut possimus ipsum officia.</p>
               </div>
             </div>
@@ -911,7 +915,7 @@
               </div>
               <div class="member-info">
                 <h4>Mrs. Arabelle M. Panganiban</h4>
-                <span>VP for Marketing</span>
+                <span style="color: #b40000">VP for Marketing</span>
                 <p>Rerum voluptate non adipisci animi distinctio et deserunt amet voluptas. Quia aut aliquid doloremque ut possimus ipsum officia.</p>
               </div>
             </div>
@@ -937,99 +941,41 @@
 
         <div class="row gy-5">
 
-          <div class="col-xl-4 col-md-6">
-            <div class="post-item position-relative h-100" data-aos="fade-up" data-aos-delay="100">
+          @forelse ($posts as $post)
+            <div class="col-xl-4 col-md-6">
+              <div class="post-item position-relative h-100" data-aos="fade-up" data-aos-delay="100">
 
-              <div class="post-img position-relative overflow-hidden">
-                <img src="../../../landing-page/assets/img/blog/blog-1.jpg" class="img-fluid" alt="">
-                <span class="post-date">December 12</span>
-              </div>
-
-              <div class="post-content d-flex flex-column">
-
-                <h3 class="post-title">Eum ad dolor et. Autem aut fugiat debitis</h3>
-
-                <div class="meta d-flex align-items-center">
-                  <div class="d-flex align-items-center">
-                    <i class="bi bi-person"></i> <span class="ps-2">Julia Parker</span>
-                  </div>
-                  <span class="px-3 text-black-50">/</span>
-                  <div class="d-flex align-items-center">
-                    <i class="bi bi-folder2"></i> <span class="ps-2">Politics</span>
-                  </div>
+                <div class="post-img position-relative overflow-hidden">
+                  <img src="{{ asset('storage/' . $post->image) }}" class="img-fluid" alt="">
+                  <span class="post-date">{{ \Carbon\Carbon::parse($post->posted_at)->format('F d') }}</span>
                 </div>
 
-                <hr>
+                <div class="post-content d-flex flex-column">
+                  <h3 class="post-title">{{ $post->title }}</h3>
 
-                <a href="blog-details.html" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
-
-              </div>
-
-            </div>
-          </div><!-- End post item -->
-
-          <div class="col-xl-4 col-md-6">
-            <div class="post-item position-relative h-100" data-aos="fade-up" data-aos-delay="200">
-
-              <div class="post-img position-relative overflow-hidden">
-                <img src="../../../landing-page/assets/img/blog/blog-2.jpg" class="img-fluid" alt="">
-                <span class="post-date">July 17</span>
-              </div>
-
-              <div class="post-content d-flex flex-column">
-
-                <h3 class="post-title">Et repellendus molestiae qui est sed omnis</h3>
-
-                <div class="meta d-flex align-items-center">
-                  <div class="d-flex align-items-center">
-                    <i class="bi bi-person"></i> <span class="ps-2">Mario Douglas</span>
+                  <div class="meta d-flex align-items-center">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-person"></i> <span class="ps-2">{{ $post->author ?? 'Anonymous' }}</span>
+                    </div>
+                    <span class="px-3 text-black-50">/</span>
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-folder2"></i> <span class="ps-2">{{ $post->category ?? 'General' }}</span>
+                    </div>
                   </div>
-                  <span class="px-3 text-black-50">/</span>
-                  <div class="d-flex align-items-center">
-                    <i class="bi bi-folder2"></i> <span class="ps-2">Sports</span>
-                  </div>
+
+                  <hr>
+                  @if($post->link)
+                    <a href="{{ $post->link }}" target="_blank" class="readmore stretched-link">
+                      <span>Read More</span><i class="bi bi-arrow-right"></i>
+                    </a>
+                  @endif
                 </div>
 
-                <hr>
-
-                <a href="blog-details.html" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
-
               </div>
-
-            </div>
-          </div><!-- End post item -->
-
-          <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="post-item position-relative h-100">
-
-              <div class="post-img position-relative overflow-hidden">
-                <img src="../../../landing-page/assets/img/blog/blog-3.jpg" class="img-fluid" alt="">
-                <span class="post-date">September 05</span>
-              </div>
-
-              <div class="post-content d-flex flex-column">
-
-                <h3 class="post-title">Quia assumenda est et veritati tirana ploder</h3>
-
-                <div class="meta d-flex align-items-center">
-                  <div class="d-flex align-items-center">
-                    <i class="bi bi-person"></i> <span class="ps-2">Lisa Hunter</span>
-                  </div>
-                  <span class="px-3 text-black-50">/</span>
-                  <div class="d-flex align-items-center">
-                    <i class="bi bi-folder2"></i> <span class="ps-2">Economics</span>
-                  </div>
-                </div>
-
-                <hr>
-
-                <a href="blog-details.html" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
-
-              </div>
-
-            </div>
-          </div><!-- End post item -->
-
+            </div><!-- End post item -->
+          @empty
+          <p class="text-center">No recent Facebook posts found.</p>
+        @endforelse
         </div>
 
       </div>

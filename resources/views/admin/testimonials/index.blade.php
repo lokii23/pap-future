@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Panel</title>
+    <!-- Favicons -->
+    <link href="../../../pap1.png" rel="icon">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex min-h-screen">
@@ -40,7 +42,7 @@
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2>Testimonials</h2><br>
-                <a href="{{ route('testimonials.create') }}" class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Add Testimonial</a>
+                <a href="{{ route('testimonials.create') }}" class="w-full bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition">Add Testimonial</a>
             </div>
 
             @if(session('success'))

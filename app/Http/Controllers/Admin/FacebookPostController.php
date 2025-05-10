@@ -5,9 +5,22 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Facebook;
+use Illuminate\Support\Facades\Storage;
 
 class FacebookPostController extends Controller
 {
+    
+    public function index()
+    {
+        $facebooks = Facebook::latest()->get(); // fetch posts
+        return view('admin.facebook-posts.index', compact('facebooks')); // pass to view
+    }
+
+    public function create()
+    {
+        return view('admin.facebook-posts.create');
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -17,32 +30,39 @@ class FacebookPostController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'required|string',
             'posted_at' => 'nullable|date',
+            'link' => 'required|url|max:255', // <-- validate the link
         ]);
 
+        $imagePath = null;
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('facebook-posts', 'public');
+            $imagePath = $request->file('image')->store('facebook', 'public');
         }
 
-        FacebookPost::create($data);
+        Facebook::create([
+            'title' => $request->title,
+            'author' => $request->author,
+            'category' => $request->category,
+            'image' => $imagePath,
+            'description' => $request->description,
+            'posted_at' => $request->posted_at,
+            'link' => $request->link,
+        ]);
 
-        return redirect()->route('facebook-posts.index')->with('success', 'Post added successfully!');
+        return redirect()->route('facebook-posts.index')->with('success', 'Facebook Posts added successfully!');
     }
-
-    public function destroy(FacebookPost $facebookPost)
+    
+    public function destroy($id)
     {
-        if ($facebookPost->image) {
-            Storage::disk('public')->delete($facebookPost->image);
+        $facebook = Facebook::findOrFail($id);
+
+        // Delete image from storage if exists
+        if ($facebook->image && \Storage::exists($facebook->image)) {
+            \Storage::delete($facebook->image);
         }
 
-        $facebookPost->delete();
+        $facebook->delete();
 
-        return redirect()->route('facebook-posts.index')->with('success', 'Post deleted.');
-    }
-
-    public function index()
-    {
-        $posts = Facebook::latest()->get(); // You can change sorting if needed
-        return view('admin.facebook-posts.index', compact('posts'));
+        return redirect()->route('facebook-posts.index')->with('success', 'Facebook deleted successfully.');
     }
 
 

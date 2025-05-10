@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Facebook Posts</title>
+    <!-- Favicons -->
+    <link href="../../../pap1.png" rel="icon">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 flex min-h-screen">
@@ -36,74 +38,70 @@
 
     <!-- Main Content -->
     <main class="flex-1 p-10 bg-gray-100 overflow-y-auto">
-        <div class="max-w-7xl mx-auto">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6">Facebook Posts</h1>
+        <div class="container mx-auto">
+        <h2 class="text-2xl font-bold mb-4">Facebook Posts</h2>
 
-            @if(session('success'))
-                <div class="mb-4 p-4 bg-green-100 text-green-700 rounded">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            <!-- Add Post Form -->
-            <form action="{{ route('facebook-posts.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4 mb-10 bg-white p-6 rounded shadow">
-                @csrf
-                <div>
-                    <label class="block text-gray-700 font-medium">Title</label>
-                    <input type="text" name="title" required class="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label class="block text-gray-700 font-medium">Author</label>
-                        <input type="text" name="author" class="w-full mt-1 px-3 py-2 border rounded-md">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 font-medium">Category</label>
-                        <input type="text" name="category" class="w-full mt-1 px-3 py-2 border rounded-md">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 font-medium">Posted At</label>
-                        <input type="date" name="posted_at" class="w-full mt-1 px-3 py-2 border rounded-md">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-gray-700 font-medium">Description</label>
-                    <textarea name="description" rows="4" required class="w-full mt-1 px-3 py-2 border rounded-md"></textarea>
-                </div>
-
-                <div>
-                    <label class="block text-gray-700 font-medium">Image</label>
-                    <input type="file" name="image" class="w-full mt-1">
-                </div>
-
-                <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500">Add Post</button>
-            </form>
-
-            <!-- List of Posts -->
-            <div class="grid md:grid-cols-3 gap-6">
-                @foreach($posts as $post)
-                    <div class="bg-white rounded-lg shadow overflow-hidden flex flex-col">
-                        @if($post->image)
-                            <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="h-48 w-full object-cover">
-                        @endif
-                        <div class="p-4 flex-1 flex flex-col">
-                            <h3 class="text-lg font-semibold text-gray-800">{{ $post->title }}</h3>
-                            <p class="text-sm text-gray-500 mb-2">{{ $post->author }} / {{ $post->category }}<br>
-                                {{ \Carbon\Carbon::parse($post->posted_at)->format('M d, Y') }}
-                            </p>
-                            <p class="text-gray-700 flex-1">{{ $post->description }}</p>
-                            <form action="{{ route('facebook-posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Delete this post?')" class="mt-4">
-                                @csrf
-                                @method('DELETE')
-                                <button class="bg-red-500 text-white px-3 py-1 text-sm rounded hover:bg-red-400">Delete</button>
-                            </form>
-                        </div>
-                    </div>
-                @endforeach
+        <!-- Success Message -->
+        @if(session('success'))
+            <div class="bg-green-100 text-green-700 p-2 rounded mb-4">
+                {{ session('success') }}
             </div>
+        @endif
+
+        <!-- Add Post Button -->
+        <div class="mb-4">
+            <a href="{{ route('facebook-posts.create') }}"
+            class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Add New Post</a>
         </div>
+
+        <!-- Posts Table -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white shadow-md rounded">
+                <thead>
+                    <tr class="bg-gray-100 text-left">
+                        <th class="px-4 py-2 text-left">#</th>
+                        <th class="py-2 px-4">Image</th>
+                        <th class="py-2 px-4">Title</th>
+                        <th class="py-2 px-4">Author</th>
+                        <th class="py-2 px-4">Category</th>
+                        <th class="py-2 px-4">Posted At</th>
+                        <th class="py-2 px-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($facebooks as $facebook)
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="px-4 py-2">{{ $loop->iteration }}</td>
+                            <td class="py-2 px-4">
+                                @if($facebook->image)
+                                    <img src="{{ asset('storage/' . $facebook->image) }}" alt="Post Image" class="w-16 h-16 object-cover rounded">
+                                @else
+                                    N/A
+                                @endif
+                            </td>
+                            <td class="py-2 px-4">{{ $facebook->title }}</td>
+                            <td class="py-2 px-4">{{ $facebook->author }}</td>
+                            <td class="py-2 px-4">{{ $facebook->category }}</td>
+                            <td class="py-2 px-4">{{ \Carbon\Carbon::parse($facebook->posted_at)->format('M d, Y') }}</td>
+                            <td class="py-2 px-4 flex gap-2">
+                                <form action="{{ route('facebook-posts.destroy', $facebook) }}" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this post?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="py-4 px-4 text-center text-gray-500">No posts available.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     </main>
 
 </body>

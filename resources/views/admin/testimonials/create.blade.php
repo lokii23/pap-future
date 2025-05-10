@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Testimonial</title>
+    <!-- Favicons -->
+    <link href="../../../pap1.png" rel="icon">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex min-h-screen">
@@ -42,7 +44,7 @@
         <div class="container">
             <h1>Add Testimonial</h1>
             <br>
-            <a href="{{ route('testimonials.index') }}" class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition">
+            <a href="{{ route('testimonials.index') }}" class="w-full bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition">
                 Back
             </a>
             <form action="{{ route('testimonials.store') }}" method="POST" enctype="multipart/form-data">
